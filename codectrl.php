@@ -24,7 +24,7 @@ class CodeCTRLformatter
             "name" => $function_name,
             "file_path" => $fileName,
             "line_number" => $line_number,
-            "column_number" => 0,
+            "column_number" => 1,
             "code" => $code_line
         );
 
@@ -97,13 +97,13 @@ class CodeCTRL
     https://www.php.net/manual/en/intro.sockets.php
     https://www.php.net/manual/en/sockets.installation.php
 
-    in the php.init file you should see a commented line called `extension=sockets` uncomment that 
+    in the php.ini file you should see a commented line called `extension=sockets` uncomment that 
     */
 
-    function SendMessageToServer($port, $ip, $message)
+    function SendMessageToServer($ip, $port, $message)
     {
         $sock = socket_create(AF_INET, SOCK_STREAM, 0) or die("Cannot create a socket");
-        socket_connect($sock,  "127.0.0.1", 3001) or die("Could not connect to the socket");
+        socket_connect($sock, $ip, $port) or die("Could not connect to the socket");
         socket_write($sock, $message);
     }
 }
