@@ -1,16 +1,16 @@
-### Project
+# codeCTRL (php)
 
+example usage
+
+ ```php
+include("codectrl.php");
+
+function exampleTestForCodectrl()
+{
+    (new Codectrl)->log("log here test ");
+}
+
+exampleTestForCodectrl();
 ```
-.
-├── composer.json
-├── example.php
-└── src
-    └── CBOR
-        ├── CBOREncoder.php
-        ├── CBORIncorrectAdditionalInfoException.php
-        └── Types
-            └── CBORByteString.php
 
-```
 
-![https://github.com/2tvenom/CBOREncode](https://github.com/2tvenom/CBOREncode)
