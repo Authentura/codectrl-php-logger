@@ -73,3 +73,16 @@ class ChildClass {
 $test = new ParentClass();
 ?>
 ```
+```php
+{
+$this->_parent = $p;
+}
+}
+
+$test = new ParentClass();
+?>
+<h1> hello world</h1>
+
+<?php
+echo "this should be highlighted";
+```
