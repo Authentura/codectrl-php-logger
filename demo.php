@@ -7,7 +7,7 @@ class ParentClass {
         public function __construct()
         {
                 $this->_child = new ChildClass($this);
-                (new Codectrl)->log(message:"log test", end_f:20, start_f:1, debugging:1);
+                (new Codectrl)->log(message:"log test", surround:2 , debugging:1);
         }
 }
 

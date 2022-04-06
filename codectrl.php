@@ -25,6 +25,7 @@ class CodeCTRLformatter
             "column_number" => 1,
             "code" => $code_line, 
         );
+
         return $stack_array;
     }
 
@@ -39,11 +40,14 @@ class CodeCTRLformatter
     {
         $code_snipets = array();
 
-        if ($start > $end) {
+        if ($start > $end | $start < 0) {
             return array(
-                "1" => "// line start was larger than the start line",
+                "1" => "// there was a conflic between start and end lines",
                 "2" => "// please check the warnings."
             );
+        }
+        else if($start < 0){
+            $start = 1;
         }
 
         for ($x = $start; $x <= $end; $x++) {
@@ -56,11 +60,20 @@ class CodeCTRLformatter
 
 class CodeCTRL
 {
-    public function log($message = "log from : codectrl php logger. :)", $start_f = 1, $end_f = 5, $ip = "127.0.0.1", $port = 3001 , $debugging= 0)
+    public function log($message = "log from : codectrl php logger. :)", $surround = 3, $ip = "127.0.0.1", $port = 3001 , $debugging= 0)
     {
         $traceOutput =  (new CodeCTRLformatter)->getTrace();
-        $codes = (new CodeCTRLformatter)->getCodeArray($start_f,$end_f, $traceOutput['file_path']);
-        $schema = CodeCTRL::buildObject($traceOutput, $codes, $traceOutput['line_number'], $message, $ip);
+
+        $codes = (new CodeCTRLformatter)->getCodeArray($traceOutput['line_number'] - $surround, $traceOutput['line_number'] + $surround, $traceOutput['file_path']);
+        $schema = CodeCTRL::buildObject(
+                stack:$traceOutput, 
+                codeSnippet:$codes, 
+                line_number:$traceOutput['line_number'],
+                message: $message,
+                ip:$ip,
+                file_name: $traceOutput['file_path'],
+                is_debug: $debugging
+        );
         $target = json_encode($schema);
 
         // display the json message if debug mode is enabled
@@ -79,7 +92,7 @@ class CodeCTRL
         (new CodeCTRL)->SendMessageToServer($ip, $port, $target);
     }
 
-    static function buildObject($stack, $codeSnippet, $line_number, $message, $ip)
+    static function buildObject($stack, $codeSnippet, $line_number, $message, $ip, $file_name, $is_debug)
     {
         $target =  array(
             "stack" => [$stack],
@@ -87,11 +100,15 @@ class CodeCTRL
             "code_snippet" => $codeSnippet,
             "message" => $message, 
             "message_type" => gettype($message), 
-            "file_name" => basename(__FILE__, '.php'), 
+            "file_name" => $file_name, 
             "address" => $ip, 
             "language" => "php",  
             "warnings" => array(), 
         );
+
+        if ($is_debug==1){
+            var_dump($target);
+        }
 
         return $target;
     }
