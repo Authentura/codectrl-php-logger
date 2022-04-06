@@ -25,14 +25,14 @@ class CodeCTRLformatter
             "column_number" => 1,
             "code" => $code_line, 
         );
-
         return $stack_array;
     }
 
     static function GetContentOnLine($filepath, $lineNumber)
     {
         $lines = file($filepath);
-        return $lines[$lineNumber - 1];
+        // replace \n new lines of the file. because otherwise formatting of the code in CodeCTRL wont look nice
+        return trim(preg_replace('/\s\s+/', ' ', $lines[$lineNumber - 1]));
     }
 
     function getCodeArray($start, $end, $filename)
@@ -56,17 +56,17 @@ class CodeCTRLformatter
 
 class CodeCTRL
 {
-    public function log($message)
+    public function log($message = "log from : codectrl php logger. :)", $start_f = 1, $end_f = 5, $ip = "127.0.0.1", $port = 3001 , $debugging= 0)
     {
-        $ip = "127.0.0.1";
-        $port = 3001;
-
         $traceOutput =  (new CodeCTRLformatter)->getTrace();
-        $codes = (new CodeCTRLformatter)->getCodeArray(1, 5, $traceOutput['file_path']);
+        $codes = (new CodeCTRLformatter)->getCodeArray($start_f,$end_f, $traceOutput['file_path']);
         $schema = CodeCTRL::buildObject($traceOutput, $codes, $traceOutput['line_number'], $message, $ip);
         $target = json_encode($schema);
 
-        echo $target; // display the target for debugging
+        // display the json message if debug mode is enabled
+        if($debugging == 1){
+            echo $target;
+        }
 
         /*
         $encoded_data = \CBOR\CBOREncoder::encode($target);
