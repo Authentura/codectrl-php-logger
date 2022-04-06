@@ -1,7 +1,5 @@
 <?php
 
-include("src/CBOR/CBOREncoder.php");
-include("src/CBOR/Types/CBORByteString.php");
 
 class CodeCTRLformatter
 {
@@ -25,7 +23,7 @@ class CodeCTRLformatter
             "file_path" => $fileName,
             "line_number" => $line_number,
             "column_number" => 1,
-            "code" => $code_line
+            "code" => $code_line, 
         );
 
         return $stack_array;
@@ -58,35 +56,41 @@ class CodeCTRLformatter
 
 class CodeCTRL
 {
-    public function log()
+    public function log($message)
     {
         $ip = "127.0.0.1";
         $port = 3001;
 
         $traceOutput =  (new CodeCTRLformatter)->getTrace();
         $codes = (new CodeCTRLformatter)->getCodeArray(1, 5, $traceOutput['file_path']);
-        $message = "working on...";
-        $schema = CodeCTRL::buildObject($traceOutput, $codes, $traceOutput['line_number'], $message);
+        $schema = CodeCTRL::buildObject($traceOutput, $codes, $traceOutput['line_number'], $message, $ip);
         $target = json_encode($schema);
 
         echo $target; // display the target for debugging
 
+        /*
         $encoded_data = \CBOR\CBOREncoder::encode($target);
         $byte_arr = unpack("C*", $encoded_data);
         $finalPayload = implode(" ", array_map(function ($byte) {
             return "0x" . strtoupper(dechex($byte));
         }, $byte_arr)) . PHP_EOL;
+        */
 
-        (new CodeCTRL)->SendMessageToServer($ip, $port, $finalPayload);
+        (new CodeCTRL)->SendMessageToServer($ip, $port, $target);
     }
 
-    static function buildObject($stack, $codeSnippet, $line_number, $message)
+    static function buildObject($stack, $codeSnippet, $line_number, $message, $ip)
     {
         $target =  array(
             "stack" => [$stack],
             "line_number" => $line_number,
             "code_snippet" => $codeSnippet,
-            "message" => $message
+            "message" => $message, 
+            "message_type" => gettype($message), 
+            "file_name" => basename(__FILE__, '.php'), 
+            "address" => $ip, 
+            "language" => "php",  
+            "warnings" => array(), 
         );
 
         return $target;
