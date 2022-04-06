@@ -25,7 +25,6 @@ class CodeCTRLformatter
             "column_number" => 1,
             "code" => $code_line, 
         );
-
         return $stack_array;
     }
 
@@ -46,7 +45,7 @@ class CodeCTRLformatter
                 "2" => "// please check the warnings."
             );
         }
-        else if($start < 0){
+        else if($start < 0) {
             $start = 1;
         }
 
@@ -66,18 +65,18 @@ class CodeCTRL
 
         $codes = (new CodeCTRLformatter)->getCodeArray($traceOutput['line_number'] - $surround, $traceOutput['line_number'] + $surround, $traceOutput['file_path']);
         $schema = CodeCTRL::buildObject(
-                stack:$traceOutput, 
-                codeSnippet:$codes, 
-                line_number:$traceOutput['line_number'],
-                message: $message,
-                ip:$ip,
-                file_name: $traceOutput['file_path'],
-                is_debug: $debugging
+            stack:$traceOutput, 
+            codeSnippet:$codes, 
+            line_number:$traceOutput['line_number'],
+            message: $message,
+            ip:$ip,
+            file_name: $traceOutput['file_path'],
+            is_debug: $debugging
         );
         $target = json_encode($schema);
 
         // display the json message if debug mode is enabled
-        if($debugging == 1){
+        if($debugging == 1) {
             echo $target;
         }
 
@@ -102,11 +101,11 @@ class CodeCTRL
             "message_type" => gettype($message), 
             "file_name" => $file_name, 
             "address" => $ip, 
-            "language" => "php",  
+            "language" => "PHP",  
             "warnings" => array(), 
         );
 
-        if ($is_debug==1){
+        if ($is_debug==1) {
             var_dump($target);
         }
 
