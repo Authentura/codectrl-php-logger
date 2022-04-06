@@ -42,11 +42,8 @@ Keyword arguments, other than "reserved" ones, get appended
 * port:
   By default set to `3001`, this is the port the codeCTRL server should be contacted at.
 
-* start_f:
-  By default `1`, this argument specifies the line number to start displaying on logger.
-
-* end_f:
-  By default `5`, this argument specifies the line number to end displaying on logger.
+* surround:
+  By default `3`, this argument specifies the number of lines of code that should be displayed around the call to `codectrl.log`.
 
 
 Usage Example
