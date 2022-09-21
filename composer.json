@@ -1,0 +1,21 @@
+{
+  "name": "authentura/codectrl-php-logger",
+  "description": "A php library for the codeCTRL logger.",
+  "type": "library",
+  "require": {
+    "google/protobuf": "^3.21",
+    "grpc/grpc": "^1.42"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Authentura\\CodectrlPhpLogger\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "z9fr",
+      "email": "z9fr@protonmail.com"
+    }
+  ]
+}
