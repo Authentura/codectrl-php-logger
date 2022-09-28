@@ -1,0 +1,3 @@
+[submodule "codectrl-protobuf-specifications"]
+	path = codectrl-protobuf-specifications
+	url = git@github.com:Authentura/codectrl-protobuf-specifications.git
