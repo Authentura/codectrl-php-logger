@@ -1,5 +1,10 @@
 <?php
 
+use Codectrl\Data\Log\Log;
+
+@include_once dirname(__FILE__) . './protobuf/Codectrl/Data/Log/Log.php';
+@include_once dirname(__FILE__) . './protobuf/Codectrl/Data/Backtrace_data/BacktraceData.php';
+@include_once dirname(__FILE__) . './protobuf/GPBMetadata/CcService.php';
 
 class CodeCTRLformatter
 {
@@ -23,7 +28,7 @@ class CodeCTRLformatter
             "file_path" => $fileName,
             "line_number" => $line_number,
             "column_number" => 1,
-            "code" => $code_line, 
+            "code" => $code_line,
         );
         return $stack_array;
     }
@@ -44,8 +49,7 @@ class CodeCTRLformatter
                 "1" => "// there was a conflic between start and end lines",
                 "2" => "// please check the warnings."
             );
-        }
-        else if($start < 0) {
+        } else if ($start < 0) {
             $start = 1;
         }
 
@@ -59,34 +63,35 @@ class CodeCTRLformatter
 
 class CodeCTRL
 {
-    public function log($message = "log from : codectrl php logger. :)", $surround = 3, $ip = "127.0.0.1", $port = 3001 , $debugging= 0)
+    public function log($message = "log from : codectrl php logger. :)", $surround = 3, $ip = "127.0.0.1", $port = 3001, $debugging = 0)
     {
         $traceOutput =  (new CodeCTRLformatter)->getTrace();
 
         $codes = (new CodeCTRLformatter)->getCodeArray($traceOutput['line_number'] - $surround, $traceOutput['line_number'] + $surround, $traceOutput['file_path']);
         $schema = CodeCTRL::buildObject(
-            stack:$traceOutput, 
-            codeSnippet:$codes, 
-            line_number:$traceOutput['line_number'],
+            stack: $traceOutput,
+            codeSnippet: $codes,
+            line_number: $traceOutput['line_number'],
             message: $message,
-            ip:$ip,
+            ip: $ip,
             file_name: $traceOutput['file_path'],
             is_debug: $debugging
         );
         $target = json_encode($schema);
 
         // display the json message if debug mode is enabled
-        if($debugging == 1) {
+        if ($debugging == 1) {
             echo $target;
         }
 
-        /*
-        $encoded_data = \CBOR\CBOREncoder::encode($target);
-        $byte_arr = unpack("C*", $encoded_data);
-        $finalPayload = implode(" ", array_map(function ($byte) {
-            return "0x" . strtoupper(dechex($byte));
-        }, $byte_arr)) . PHP_EOL;
-        */
+        $log = new Log();
+        $log->setStack($traceOutput);
+        $log->setCodeSnippet($codes);
+        $log->setLineNumber($traceOutput['line_number']);
+        $log->setMessage($message);
+        $log->setFileName($traceOutput['file_path']);
+        $log->setWarnings([]);
+        $log->setLanguage("php");
 
         (new CodeCTRL)->SendMessageToServer($ip, $port, $target);
     }
@@ -97,15 +102,15 @@ class CodeCTRL
             "stack" => [$stack],
             "line_number" => $line_number,
             "code_snippet" => $codeSnippet,
-            "message" => $message, 
-            "message_type" => gettype($message), 
-            "file_name" => $file_name, 
-            "address" => $ip, 
-            "language" => "PHP",  
-            "warnings" => array(), 
+            "message" => $message,
+            "message_type" => gettype($message),
+            "file_name" => $file_name,
+            "address" => $ip,
+            "language" => "PHP",
+            "warnings" => array(),
         );
 
-        if ($is_debug==1) {
+        if ($is_debug == 1) {
             var_dump($target);
         }
 
