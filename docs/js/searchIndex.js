@@ -26,20 +26,35 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/CodeCTRL.html"
         },                {
+            "fqsen": "\\CodeCTRL\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020\u0060Logger\u0060\u0020with\u0020a\u0020pre\u002Ddefined\u0020log\u0020batch,\u0020hostname\u0020and\u0020port.",
+            "url": "classes/CodeCTRL.html#method___construct"
+        },                {
+            "fqsen": "\\CodeCTRL\u003A\u003AcreateServerConnection\u0028\u0029",
+            "name": "createServerConnection",
+            "summary": "",
+            "url": "classes/CodeCTRL.html#method_createServerConnection"
+        },                {
             "fqsen": "\\CodeCTRL\u003A\u003Alog\u0028\u0029",
             "name": "log",
-            "summary": "",
+            "summary": "The\u0020basic\u0020log\u0020function.",
             "url": "classes/CodeCTRL.html#method_log"
         },                {
-            "fqsen": "\\CodeCTRL\u003A\u003AbuildObject\u0028\u0029",
-            "name": "buildObject",
+            "fqsen": "\\CodeCTRL\u003A\u003AlogBuilder\u0028\u0029",
+            "name": "logBuilder",
             "summary": "",
-            "url": "classes/CodeCTRL.html#method_buildObject"
+            "url": "classes/CodeCTRL.html#method_logBuilder"
         },                {
-            "fqsen": "\\CodeCTRL\u003A\u003ASendMessageToServer\u0028\u0029",
-            "name": "SendMessageToServer",
+            "fqsen": "\\CodeCTRL\u003A\u003A\u0024batchHost",
+            "name": "batchHost",
             "summary": "",
-            "url": "classes/CodeCTRL.html#method_SendMessageToServer"
+            "url": "classes/CodeCTRL.html#property_batchHost"
+        },                {
+            "fqsen": "\\CodeCTRL\u003A\u003A\u0024batchPort",
+            "name": "batchPort",
+            "summary": "",
+            "url": "classes/CodeCTRL.html#property_batchPort"
         },                {
             "fqsen": "\\ParentClass",
             "name": "ParentClass",
@@ -50,16 +65,6 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "",
             "url": "classes/ParentClass.html#method___construct"
-        },                {
-            "fqsen": "\\ChildClass",
-            "name": "ChildClass",
-            "summary": "",
-            "url": "classes/ChildClass.html"
-        },                {
-            "fqsen": "\\ChildClass\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ChildClass.html#method___construct"
         },                {
             "fqsen": "\\",
             "name": "\\",
