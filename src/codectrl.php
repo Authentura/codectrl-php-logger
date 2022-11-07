@@ -135,7 +135,9 @@ class CodeCTRL
     }
 
     /*
-     * Builds the Log object to send to CodeCtrl Server
+     * Builds the Log object and returns
+     *
+     * @returns Log
      */
     private function logBuilder($traceOutput, $surround, $message): Log
     {
@@ -145,6 +147,7 @@ class CodeCTRL
             $traceOutput->getFilePath()
         );
 
+
         // build the log object
         $log = new Log();
         $log->setUuid("");
@@ -152,7 +155,7 @@ class CodeCTRL
         $log->setCodeSnippet($codes);
         $log->setLineNumber($traceOutput->getLineNumber());
         $log->setMessage($message);
-        $log->setMessageType("string");
+        $log->setMessageType(gettype($message));
         $log->setFileName($traceOutput->getFilePath());
         $log->setWarnings([]);
         $log->setLanguage("PHP");
