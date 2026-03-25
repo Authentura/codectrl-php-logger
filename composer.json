@@ -3,7 +3,7 @@
   "description": "A php library for the codeCTRL logger.",
   "type": "library",
   "require": {
-    "google/protobuf": "^3.21",
+    "google/protobuf": "^3.21 || ^4.0",
     "grpc/grpc": "^1.42"
   },
   "license": "MIT",
